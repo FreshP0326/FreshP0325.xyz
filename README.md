@@ -1,53 +1,53 @@
-﻿# Minimal Blog
+﻿# FreshP0325.xyz
 
-A statically exported Next.js blog optimized for low-cost deployment on Cloudflare Pages.
+这是一个基于 Next.js 的静态导出博客，针对 Cloudflare Pages 的低成本部署场景进行了优化。
 
-## Stack
+## 技术栈
 
 - Next.js App Router
-- MDX via `content-collections`
-- `next-intl` for `zh`, `en`, `ja`
+- 通过 `content-collections` 使用 MDX
+- 使用 `next-intl` 提供 `zh`、`en`、`ja` 多语言
 - Tailwind CSS
-- Static assets served from `public/`
+- 静态资源通过 `public/` 提供
 
-## Runtime model
+## 运行模式
 
-This project now deploys as a pure static site:
+当前项目以纯静态站点方式部署：
 
-- output directory: `out/`
-- no database
-- no tRPC API
-- no middleware-based locale routing
-- no comments or view counters
+- 输出目录：`out/`
+- 不使用数据库
+- 不使用 tRPC API
+- 不使用基于 middleware 的语言路由
+- 不包含评论与阅读量统计
 
-That keeps the deployment nearly free and better suited to visitors in mainland China without ICP filing.
+这种方式可以把部署成本压到很低，也更适合在未备案前提下服务中国大陆访客。
 
-## Environment variables
+## 环境变量
 
-Create `.env` from `.env.example` and set:
+请根据 `.env.example` 创建 `.env`，并设置：
 
 ```env
-NEXT_PUBLIC_SITE_URL="https://your-domain.com"
+NEXT_PUBLIC_SITE_URL="https://freshp0325.xyz"
 ```
 
-`NEXT_PUBLIC_SITE_URL` is used for canonical URLs, `robots.txt`, `sitemap.xml`, and `rss.xml`.
+`NEXT_PUBLIC_SITE_URL` 会用于生成 canonical URL、`robots.txt`、`sitemap.xml` 与 `rss.xml`。
 
-## Local development
+## 本地开发
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000/` during development. It now redirects to `http://localhost:3000/zh`.
+开发环境默认访问 `http://localhost:3000/`，当前会重定向到 `http://localhost:3000/zh`。
 
-If you want to inspect a specific locale directly, use:
+如果你想直接查看某个语言版本，可以使用：
 
 - `http://localhost:3000/zh`
 - `http://localhost:3000/en`
 - `http://localhost:3000/ja`
 
-## Validation
+## 校验命令
 
 ```bash
 npm run validate:posts
@@ -57,37 +57,37 @@ npm run typecheck
 npm run build
 ```
 
-A successful build exports the site to `out/`.
+构建成功后，静态站点会导出到 `out/`。
 
-## Local preview
+## 本地预览
 
 ```bash
 npm run preview
 ```
 
-This serves the generated `out/` directory instead of running `next start`.
+该命令会直接预览生成后的 `out/` 目录，而不是运行 `next start`。
 
-Use `npm run preview` as the main acceptance check for the final static site. It is closer to Cloudflare Pages than `npm run dev`.
+如果你要做上线前验收，优先使用 `npm run preview`，因为它更接近 Cloudflare Pages 的实际部署效果。
 
-## Deployment target
+## 部署目标
 
-The recommended deployment target is Cloudflare Pages.
+推荐的部署平台是 Cloudflare Pages。
 
-- Build command: `npm ci && npm run build`
-- Build output directory: `out`
-- Node version: `22`
-- Required env var: `NEXT_PUBLIC_SITE_URL=https://your-domain.com`
+- Build command：`npm ci && npm run build`
+- Build output directory：`out`
+- Node version：`22`
+- 必填环境变量：`NEXT_PUBLIC_SITE_URL=https://freshp0325.xyz`
 
-## Cloudflare Pages files
+## Cloudflare Pages 相关文件
 
-This repo includes:
+仓库中已包含：
 
-- `public/_redirects` for locale and RSS redirects
-- `public/_headers` for cache rules on static assets
+- `public/_redirects`：用于语言入口与 RSS 重定向
+- `public/_headers`：用于静态资源缓存规则
 
-## Performance workflow
+## 性能测试流程
 
-Run a fresh static build first, then the repeatable Lighthouse workflow:
+请先生成最新静态构建，再执行可重复的 Lighthouse 流程：
 
 ```bash
 npm run build
@@ -95,30 +95,30 @@ npm run perf:lighthouse
 npm run perf:report
 ```
 
-The Lighthouse runner:
+Lighthouse 脚本会：
 
-- blocks execution if port `3000` is already occupied
-- verifies `out/` is newer than the current source tree
-- serves the static export on an isolated port
-- saves production-only JSON reports to `reports/lighthouse`
-- writes a Markdown summary to `reports/lighthouse/SUMMARY.md`
+- 在端口 `3000` 已被占用时阻止执行
+- 检查 `out/` 是否比当前源码更新
+- 在独立端口启动静态预览
+- 将仅生产环境报告保存到 `reports/lighthouse`
+- 输出汇总到 `reports/lighthouse/SUMMARY.md`
 
-You can also measure a single page:
+如果你只想测试单个页面，也可以运行：
 
 ```bash
 npm run perf:lighthouse -- /en/blog
 ```
 
-## Content workflow
+## 内容工作流
 
-The writing flow remains:
+日常写作流程保持不变：
 
-1. Edit content in Obsidian or your editor
-2. Commit and push to GitHub
-3. Let Cloudflare Pages rebuild the site
+1. 在 Obsidian 或本地编辑器中编写内容
+2. 提交并推送到 GitHub
+3. 由 Cloudflare Pages 自动构建并发布
 
-## Notes for mainland China access
+## 中国大陆访问说明
 
-- This setup does not use mainland China nodes because the site is intentionally deployed without ICP filing.
-- The speed improvement comes from static export, aggressive caching, simpler assets, and Cloudflare's global edge network.
-- If you later decide to obtain ICP filing, you can add a mainland-compatible CDN strategy on top of this baseline.
+- 当前方案不使用中国大陆节点，因为站点在未备案前提下以境外静态站方式部署
+- 性能提升主要来自静态导出、激进缓存、资源简化与 Cloudflare 全球边缘网络
+- 如果后续完成备案，可以在当前基础上继续增加更适合中国大陆的 CDN 或加速方案
