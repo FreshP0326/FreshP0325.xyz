@@ -28,6 +28,8 @@
     "siteName": "Black201's Blog",
     "role": "Full Stack Developer",
     "blogDescription": "A collection of {count} posts about Doujin, Music, and more.",
+    "rssSubscribe": "RSS Feed",
+    "rssFeedLabel": "RSS",
     "contactDescription": "For music, design, illustration inquiries, please contact me via the following methods.",
     "discographyDescription": "A collection of music works and releases."
   }

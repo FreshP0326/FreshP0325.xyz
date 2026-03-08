@@ -1,5 +1,5 @@
 import React from "react";
-import { Rss, Twitter } from "lucide-react";
+import { ExternalLink, Rss, Twitter } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { siteConfig } from "@/config/site";
@@ -38,7 +38,8 @@ export async function SiteFooter({ locale }: SiteFooterProps) {
     { name: "Twitter", url: siteConfig.author.links.twitter, icon: Twitter },
     { name: "Bilibili", url: siteConfig.author.links.bilibili, icon: BilibiliIcon },
     { name: "Pixiv", url: siteConfig.author.links.pixiv, icon: PixivIcon },
-    { name: "Dizzylab", url: siteConfig.author.links.dizzylab, icon: Rss },
+    { name: "Dizzylab", url: siteConfig.author.links.dizzylab, icon: ExternalLink },
+    { name: t("rssFeedLabel"), url: siteConfig.links.rss, icon: Rss },
   ];
 
   return (

@@ -16,7 +16,7 @@ export async function GET() {
       title: siteConfig.title,
       description: siteConfig.description,
       site_url: siteUrl,
-      feed_url: `${siteUrl}/rss.xml`,
+      feed_url: `${siteUrl}${siteConfig.links.rss}`,
       copyright: `${new Date().getFullYear()} ${siteConfig.author.name}`,
       language: "zh-CN",
       pubDate: new Date(),

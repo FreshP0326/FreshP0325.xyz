@@ -28,6 +28,8 @@
     "siteName": "Black201",
     "role": "",
     "blogDescription": "同人、音楽などに関する {count} 件の記事のコレクション。",
+    "rssSubscribe": "RSS",
+    "rssFeedLabel": "RSS",
     "contactDescription": "音楽、デザイン、イラストなどの依頼やお問い合わせは、以下の方法でご連絡ください。",
     "discographyDescription": "音楽作品とリリースのコレクション。"
   }

@@ -11,6 +11,16 @@ import { routing } from "@/i18n/routing";
 export const metadata: Metadata = {
   title: siteConfig.title,
   description: siteConfig.description,
+  alternates: {
+    types: {
+      "application/rss+xml": [
+        {
+          url: `${siteConfig.url}${siteConfig.links.rss}`,
+          title: "Black201 RSS Feed",
+        },
+      ],
+    },
+  },
   icons: [{ rel: "icon", url: "/avatar.png" }],
 };
 

@@ -28,6 +28,8 @@
     "siteName": "Black201的博客",
     "role": "全栈开发者",
     "blogDescription": "收集了 {count} 篇关于同人、音乐等的文章。",
+    "rssSubscribe": "RSS 订阅",
+    "rssFeedLabel": "RSS",
     "contactDescription": "如有音乐、设计、插画方面的需求或咨询，请通过以下方式联系我",
     "discographyDescription": "音乐作品和发行合集。"
   }
