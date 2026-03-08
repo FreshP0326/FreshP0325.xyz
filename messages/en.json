@@ -1,0 +1,34 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "blog": "Blog",
+    "discography": "Discography",
+    "biography": "Biography",
+    "contact": "Contact",
+    "about": "About"
+  },
+  "Common": {
+    "latestPosts": "Latest Posts",
+    "readMore": "Read More",
+    "backToTop": "Back to Top",
+    "search": "Search",
+    "searchPlaceholder": "Search posts...",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "language": "Language",
+    "tableOfContents": "Table of Contents",
+    "share": "Share",
+    "relatedPosts": "Related Posts",
+    "copyright": "Copyright",
+    "allRightsReserved": "All rights reserved.",
+    "notFound": "Page Not Found",
+    "backHome": "Back to Home",
+    "siteName": "Black201's Blog",
+    "role": "Full Stack Developer",
+    "blogDescription": "A collection of {count} posts about Doujin, Music, and more.",
+    "contactDescription": "For music, design, illustration inquiries, please contact me via the following methods.",
+    "discographyDescription": "A collection of music works and releases."
+  }
+}

@@ -1,0 +1,9 @@
+/ /zh/ 302
+/about /zh/about 302
+/biography /zh/biography 302
+/blog /zh/blog 302
+/blog/* /zh/blog/:splat 301
+/contact /zh/contact 302
+/discography /zh/discography 302
+/discography/* /zh/discography/:splat 301
+/api/rss /rss.xml 301
