@@ -1,5 +1,6 @@
 import { type CSSProperties } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 
 import { TransitionLink } from "@/components/transition/transition-link";
 import { type Post } from "@/types";
@@ -10,7 +11,7 @@ interface PostNavigationProps {
   nextPost?: Post;
 }
 
-function NavCard({
+async function NavCard({
   locale,
   post,
   direction,
@@ -19,6 +20,7 @@ function NavCard({
   post: Post;
   direction: "prev" | "next";
 }) {
+  const t = await getTranslations({ locale, namespace: "Common" });
   const isPrev = direction === "prev";
 
   return (
@@ -29,7 +31,7 @@ function NavCard({
     >
       <div className={`flex items-center gap-1 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground ${isPrev ? "justify-start" : "justify-end"}`}>
         {isPrev ? <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" /> : null}
-        <span>{isPrev ? "Previous Post" : "Next Post"}</span>
+        <span>{isPrev ? t("previousPost") : t("nextPost")}</span>
         {!isPrev ? <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /> : null}
       </div>
 
@@ -45,7 +47,7 @@ function NavCard({
   );
 }
 
-export function PostNavigation({ locale, prevPost, nextPost }: PostNavigationProps) {
+export async function PostNavigation({ locale, prevPost, nextPost }: PostNavigationProps) {
   if (!prevPost && !nextPost) return null;
 
   return (

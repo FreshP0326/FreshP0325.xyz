@@ -28,6 +28,39 @@ const formatDate = (value: string, variant: "short" | "long" = "short") => {
   return (variant === "long" ? longDateFormatter : shortDateFormatter).format(date);
 };
 
+/** Shared MDX compile options used by all collections. */
+function getMdxOptions(): NonNullable<Parameters<typeof compileMDX>[2]> {
+  return {
+    remarkPlugins: [remarkGfm, remarkDirective, remarkAdmonitions],
+    rehypePlugins: [
+      rehypeSlug,
+      [
+        rehypePrettyCode,
+        {
+          theme: {
+            dark: "tokyo-night",
+            light: "github-light",
+          },
+          keepBackground: false,
+        },
+      ],
+      [
+        rehypeRaw,
+        {
+          passThrough: [
+            "mdxjsEsm",
+            "mdxJsxFlowElement",
+            "mdxJsxTextElement",
+            "mdxFlowExpression",
+            "mdxTextExpression",
+          ],
+        },
+      ],
+      rehypeImageMetadata,
+    ],
+  };
+}
+
 const biography = defineCollection({
   name: "biography",
   directory: "content",
@@ -38,35 +71,7 @@ const biography = defineCollection({
     content: z.string(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document, {
-      remarkPlugins: [remarkGfm, remarkDirective, remarkAdmonitions],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypePrettyCode,
-          {
-            theme: {
-              dark: "tokyo-night",
-              light: "github-light",
-            },
-            keepBackground: false,
-          },
-        ],
-        [
-          rehypeRaw,
-          {
-            passThrough: [
-              "mdxjsEsm",
-              "mdxJsxFlowElement",
-              "mdxJsxTextElement",
-              "mdxFlowExpression",
-              "mdxTextExpression",
-            ],
-          },
-        ],
-        rehypeImageMetadata,
-      ],
-    });
+    const mdx = await compileMDX(context, document, getMdxOptions());
     return {
       ...document,
       mdx,
@@ -94,35 +99,7 @@ const discography = defineCollection({
     content: z.string(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document, {
-      remarkPlugins: [remarkGfm, remarkDirective, remarkAdmonitions],
-      rehypePlugins: [
-        rehypeSlug,
-        [
-          rehypePrettyCode,
-          {
-            theme: {
-              dark: "tokyo-night",
-              light: "github-light",
-            },
-            keepBackground: false,
-          },
-        ],
-        [
-          rehypeRaw,
-          {
-            passThrough: [
-              "mdxjsEsm",
-              "mdxJsxFlowElement",
-              "mdxJsxTextElement",
-              "mdxFlowExpression",
-              "mdxTextExpression",
-            ],
-          },
-        ],
-        rehypeImageMetadata,
-      ],
-    });
+    const mdx = await compileMDX(context, document, getMdxOptions());
     const slug = document._meta.path.replace(/\.mdx$/, "");
     return {
       ...document,
@@ -149,52 +126,20 @@ const posts = defineCollection({
     content: z.string(),
   }),
   transform: async (document, context) => {
-    // 1. 双向链接解析: [[slug]] -> [slug](/blog/slug)
-    // 使用更严格的正则匹配，只允许字母、数字、连字符和下划线
-    const contentWithLinks = (document.content || "").replace(
+    // Wikilink resolution: [[slug]] -> [slug](./slug)
+    // Only allows letters, digits, hyphens, and underscores in slugs.
+    const contentWithLinks = document.content.replace(
       /\[\[([a-zA-Z0-9_-]+)\]\]/g,
       (_, slug) => `[${slug}](./${slug})`
     );
 
     const mdx = await compileMDX(
       context,
-      {
-        ...document,
-        content: contentWithLinks,
-      },
-      {
-        remarkPlugins: [remarkGfm, remarkDirective, remarkAdmonitions],
-        rehypePlugins: [
-          rehypeSlug,
-          [
-            rehypePrettyCode,
-            {
-              theme: {
-                dark: "tokyo-night",
-                light: "github-light",
-              },
-              keepBackground: false,
-            },
-          ],
-          [
-            rehypeRaw,
-            {
-              passThrough: [
-                "mdxjsEsm",
-                "mdxJsxFlowElement",
-                "mdxJsxTextElement",
-                "mdxFlowExpression",
-                "mdxTextExpression",
-              ],
-            },
-          ],
-          rehypeImageMetadata,
-        ],
-      }
+      { ...document, content: contentWithLinks },
+      getMdxOptions()
     );
 
-    // 2. 阅读时间与字数统计
-    const stats = readingTime(document.content || "");
+    const stats = readingTime(document.content);
     const slug = document._meta.path.replace(/\.mdx$/, "");
 
     return {

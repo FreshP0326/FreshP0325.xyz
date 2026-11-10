@@ -3,8 +3,6 @@ import { getAllPosts } from "@/lib/content";
 import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
 
-export const dynamic = "force-static";
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
   const baseUrl = `${siteConfig.url}/${routing.defaultLocale}`;

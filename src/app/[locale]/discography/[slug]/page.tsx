@@ -3,6 +3,7 @@ import Image from "next/image";
 import { allDiscographies } from "content-collections";
 import { CalendarDays, Disc3, ExternalLink, Music2 } from "lucide-react";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 
 import { Mdx } from "@/components/blog/mdx-components";
 import { PageShell } from "@/components/layout/page-shell";
@@ -40,6 +41,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ locale: 
     notFound();
   }
 
+  const t = await getTranslations({ locale, namespace: "Common" });
   const releaseDate = album.formattedDateLong;
 
   return (
@@ -56,7 +58,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ locale: 
           </div>
 
           <div className="sidebar-card space-y-4 p-5">
-            <h2 className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Release Info</h2>
+            <h2 className="text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">{t("releaseInfo")}</h2>
 
             <div className="space-y-3 text-sm">
               <div className="flex items-center gap-2 text-muted-foreground">
@@ -65,7 +67,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ locale: 
               </div>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Disc3 className="h-4 w-4" />
-                <span>{album.tracks?.length ?? 0} Tracks</span>
+                <span>{t("tracks", { count: album.tracks?.length ?? 0 })}</span>
               </div>
             </div>
 
@@ -91,7 +93,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ locale: 
             <section className="sidebar-card p-5">
               <h3 className="mb-4 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 <Music2 className="h-4 w-4" />
-                Credits
+                {t("credits")}
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {album.credits.map((credit) => {
@@ -117,7 +119,7 @@ export default async function AlbumPage({ params }: { params: Promise<{ locale: 
 
         <div className="min-w-0 lg:col-span-8">
           <header className="mb-8 rounded-[1.9rem] border border-border/50 bg-card/55 p-6 shadow-[0_12px_40px_rgba(15,23,42,0.04)] backdrop-blur-sm md:mb-10 md:p-8" data-transition-layer="hero">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">Discography</p>
+            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">{t("discography")}</p>
             <h1 className="mb-3 text-3xl font-bold tracking-tight text-foreground md:text-5xl md:leading-tight">{album.title}</h1>
             {album.summary && <p className="max-w-3xl text-base leading-7 text-muted-foreground md:text-lg">{album.summary}</p>}
           </header>

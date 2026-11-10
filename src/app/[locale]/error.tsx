@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 
@@ -11,8 +12,9 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const t = useTranslations("Common");
+
   useEffect(() => {
-    // 可以将错误日志发送到错误报告服务
     console.error(error);
   }, [error]);
 
@@ -22,13 +24,13 @@ export default function Error({
         <AlertTriangle className="h-12 w-12 text-destructive" />
       </div>
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold">Something went wrong!</h2>
+        <h2 className="text-2xl font-bold">{t("errorTitle")}</h2>
         <p className="text-muted-foreground max-w-md">
-          An unexpected error has occurred. Please try again later.
+          {t("errorDescription")}
         </p>
       </div>
       <Button onClick={reset} variant="outline" className="rounded-full px-8">
-        Try again
+        {t("errorRetry")}
       </Button>
     </div>
   );

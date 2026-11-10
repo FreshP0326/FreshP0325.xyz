@@ -10,9 +10,10 @@ import { siteConfig } from "@/config/site";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Navigation" });
+  const tCommon = await getTranslations({ locale, namespace: "Common" });
   return {
     title: `${t("discography")} - ${siteConfig.name}`,
-    description: `Music releases by ${siteConfig.name}`,
+    description: tCommon("discographyDescription"),
   };
 }
 

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Command } from "cmdk";
 import Fuse from "fuse.js";
 import { FileText, Search } from "lucide-react";
@@ -21,6 +22,7 @@ interface SearchDialogProps {
 export function SearchDialog({ currentLocale, isOpen, isLoading, closeSearch, searchIndex }: SearchDialogProps) {
   const [search, setSearch] = React.useState("");
   const router = useRouter();
+  const t = useTranslations("Common");
 
   const fuse = React.useMemo(() => {
     return new Fuse(searchIndex, {
@@ -63,7 +65,7 @@ export function SearchDialog({ currentLocale, isOpen, isLoading, closeSearch, se
             <Search className="mr-3 h-5 w-5 text-muted-foreground" />
             <Command.Input
               autoFocus
-              placeholder="Search posts, tags, categories..."
+              placeholder={t("searchPlaceholder")}
               className="h-14 flex-1 bg-transparent text-base outline-none"
               value={search}
               onValueChange={setSearch}
@@ -74,8 +76,8 @@ export function SearchDialog({ currentLocale, isOpen, isLoading, closeSearch, se
           </div>
 
           <Command.List className="max-h-[350px] overflow-y-auto p-2">
-            {isLoading && <div className="py-12 text-center text-sm text-muted-foreground">Loading search index...</div>}
-            <Command.Empty className="py-12 text-center text-sm text-muted-foreground">No results found.</Command.Empty>
+            {isLoading && <div className="py-12 text-center text-sm text-muted-foreground">{t("searchLoading")}</div>}
+            <Command.Empty className="py-12 text-center text-sm text-muted-foreground">{t("searchNoResults")}</Command.Empty>
 
             {results.map((post) => (
               <Command.Item
@@ -96,7 +98,7 @@ export function SearchDialog({ currentLocale, isOpen, isLoading, closeSearch, se
                     <h4 className="truncate text-sm font-medium">{highlightMatch(post.title, search)}</h4>
                     <span className="whitespace-nowrap text-[10px] tabular-nums text-muted-foreground">{post.formattedDate}</span>
                   </div>
-                  <p className="mt-0.5 truncate text-xs text-muted-foreground">{highlightMatch(post.summary || "", search)}</p>
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">{highlightMatch(post.summary ?? "", search)}</p>
                 </div>
               </Command.Item>
             ))}
@@ -105,21 +107,21 @@ export function SearchDialog({ currentLocale, isOpen, isLoading, closeSearch, se
           <div className="flex items-center justify-between border-t border-border/40 bg-muted/20 px-4 py-3 text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
             <div className="flex gap-6">
               <span className="flex items-center gap-1.5">
-                <kbd className="rounded-md border border-border/60 bg-background px-1.5 py-0.5 text-[9px] shadow-sm">??</kbd>
-                <span>Navigate</span>
+                <kbd className="rounded-md border border-border/60 bg-background px-1.5 py-0.5 text-[9px] shadow-sm">↑↓</kbd>
+                <span>{t("searchNavigate")}</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <kbd className="rounded-md border border-border/60 bg-background px-1.5 py-0.5 text-[9px] shadow-sm">ENTER</kbd>
-                <span>Select</span>
+                <span>{t("searchSelect")}</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <kbd className="rounded-md border border-border/60 bg-background px-1.5 py-0.5 text-[9px] shadow-sm">ESC</kbd>
-                <span>Close</span>
+                <span>{t("searchClose")}</span>
               </span>
             </div>
             <div className="flex items-center gap-1.5 opacity-60">
-              <kbd className="rounded-md border border-border/60 bg-background px-1.5 py-0.5 text-[9px]">? K</kbd>
-              <span>Search</span>
+              <kbd className="rounded-md border border-border/60 bg-background px-1.5 py-0.5 text-[9px]">⌘ K</kbd>
+              <span>{t("search")}</span>
             </div>
           </div>
         </Command>

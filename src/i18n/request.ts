@@ -8,7 +8,7 @@ export default getRequestConfig(async ({locale, requestLocale}) => {
     resolvedLocale = await requestLocale;
   }
 
-  if (!resolvedLocale || !routing.locales.includes(resolvedLocale as any)) {
+  if (!resolvedLocale || !routing.locales.includes(resolvedLocale as (typeof routing.locales)[number])) {
     resolvedLocale = routing.defaultLocale;
   }
 

@@ -1,5 +1,6 @@
 import { type CSSProperties } from "react";
 import { type Post } from "content-collections";
+import { getTranslations } from "next-intl/server";
 
 import { TransitionLink } from "@/components/transition/transition-link";
 
@@ -8,7 +9,9 @@ interface PostListProps {
   posts: Post[];
 }
 
-export function PostList({ locale, posts }: PostListProps) {
+export async function PostList({ locale, posts }: PostListProps) {
+  const t = await getTranslations({ locale, namespace: "Common" });
+
   return (
     <ul className="flex flex-col gap-4">
       {posts.map((post, index) => {
@@ -32,7 +35,7 @@ export function PostList({ locale, posts }: PostListProps) {
                   <span className="text-muted-foreground/50">•</span>
                   <span>{post.readingTime}</span>
                   <span className="text-muted-foreground/50">•</span>
-                  <span>{post.wordCount} words</span>
+                  <span>{t("words", { count: post.wordCount })}</span>
                 </div>
 
                 <div className="space-y-2">
@@ -47,7 +50,7 @@ export function PostList({ locale, posts }: PostListProps) {
                 </div>
               </TransitionLink>
 
-              {(primaryCategory || visibleTags.length > 0) && (
+              {(primaryCategory ?? visibleTags.length > 0) && (
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   {primaryCategory && (
                     <TransitionLink

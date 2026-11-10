@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+
 import { PageShell } from "@/components/layout/page-shell";
 import { PostList } from "@/components/blog/post-list";
 import { TransitionLink } from "@/components/transition/transition-link";
@@ -9,7 +11,8 @@ interface PostFilterPageProps {
   value: string;
 }
 
-export function PostFilterPage({ locale, type, value }: PostFilterPageProps) {
+export async function PostFilterPage({ locale, type, value }: PostFilterPageProps) {
+  const t = await getTranslations({ locale, namespace: "Common" });
   const decodedValue = decodeURIComponent(value);
   const posts = type === "category" ? getPostsByCategory(decodedValue) : getPostsByTag(decodedValue);
   const currentPath =
@@ -18,21 +21,22 @@ export function PostFilterPage({ locale, type, value }: PostFilterPageProps) {
       : `/blog/tags/${encodeURIComponent(decodedValue)}`;
 
   const title = type === "category" ? decodedValue : `#${decodedValue}`;
-  const eyebrow = type === "category" ? "Category" : "Tag";
+  const eyebrow = type === "category" ? t("categoryLabel") : t("tagLabel");
   const description =
     type === "category"
-      ? `${posts.length} posts filed under “${decodedValue}”`
-      : `${posts.length} posts tagged with “${decodedValue}”`;
+      ? t("categoryDescription", { count: posts.length, value: decodedValue })
+      : t("tagDescription", { count: posts.length, value: decodedValue });
+  const breadcrumbLabel = type === "category" ? t("categoriesBreadcrumb") : t("tagsBreadcrumb");
 
   return (
     <PageShell currentPath={currentPath} locale={locale}>
       <header className="mb-8 rounded-[1.9rem] border border-border/50 bg-card/55 p-6 shadow-[0_12px_40px_rgba(15,23,42,0.04)] backdrop-blur-sm md:mb-10 md:p-8" data-transition-layer="hero">
         <div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground">
           <TransitionLink href={`/${locale}/blog`} className="transition-colors hover:text-foreground" transitionGroup="content">
-            Blog
+            {t("blogBreadcrumb")}
           </TransitionLink>
           <span>/</span>
-          <span>{type === "category" ? "Categories" : "Tags"}</span>
+          <span>{breadcrumbLabel}</span>
         </div>
         <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.16em] text-muted-foreground">{eyebrow}</p>
         <h1 className="mb-3 text-3xl font-bold tracking-tight text-foreground md:text-4xl">{title}</h1>

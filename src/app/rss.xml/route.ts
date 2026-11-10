@@ -5,8 +5,6 @@ import { siteConfig } from "@/config/site";
 import { routing } from "@/i18n/routing";
 import { getAllPosts } from "@/lib/content";
 
-export const dynamic = "force-static";
-
 export async function GET() {
   try {
     const posts = getAllPosts();
@@ -36,7 +34,6 @@ export async function GET() {
     return new NextResponse(feed.xml({ indent: true }), {
       headers: {
         "Content-Type": "application/xml; charset=utf-8",
-        "Cache-Control": "public, max-age=3600",
       },
     });
   } catch (error) {

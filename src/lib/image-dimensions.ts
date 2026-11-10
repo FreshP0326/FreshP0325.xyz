@@ -19,14 +19,15 @@ export function getPublicImageDimensions(src: string): ImageDimensions | null {
     return dimensionsCache.get(filePath) ?? null;
   }
 
-  if (!fs.existsSync(filePath)) {
+  let buffer: Buffer;
+  try {
+    buffer = fs.readFileSync(filePath);
+  } catch {
     dimensionsCache.set(filePath, null);
     return null;
   }
 
-  const buffer = fs.readFileSync(filePath);
   const extension = path.extname(filePath).toLowerCase();
-
   let dimensions: ImageDimensions | null = null;
 
   if (extension === ".png") {

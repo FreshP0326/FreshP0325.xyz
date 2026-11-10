@@ -14,7 +14,7 @@ export const siteConfig = {
       bilibili: "https://space.bilibili.com/6993889",
       dizzylab: "https://www.dizzylab.net/l/%E6%A1%83%E7%BD%90/",
       pixiv: "https://www.pixiv.net/users/42568058",
-      github: "https://github.com",
+      github: "https://github.com/FreshP0325",
     },
   },
   links: {

@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
-
+// Root redirect is handled by public/_redirects (Cloudflare Pages).
+// This file is kept as a no-op to satisfy Next.js static export requirements.
 export default function RootPage() {
-  redirect("/zh");
+  return null;
 }

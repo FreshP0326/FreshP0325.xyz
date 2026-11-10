@@ -1,8 +1,8 @@
-// @ts-nocheck
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
  */
+// @ts-nocheck — next.config.js is a plain JS file; strict type assertions aren't available here.
 import "./src/env.js";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,7 +21,7 @@ const config = {
   images: {
     unoptimized: true,
     dangerouslyAllowSVG: true,
-    contentDispositionType: "attachment",
+    contentDispositionType: /** @type {"attachment"} */ ("attachment"),
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
